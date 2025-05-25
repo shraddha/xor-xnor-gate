@@ -1,13 +1,377 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
+	<title>CMOS XOR & XNOR Gate SPICE Simulation</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./css/main.css">
+	<script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
 </head>
 <body>
-		<!-- Your code goes here-->
+	<div class="container">
+		<!-- Main Gate Selection Tabs -->
+		<div class="main-tabs">
+			<div class="tab active" data-tab="xor-gate">XOR Gate</div>
+			<div class="tab" data-tab="xnor-gate">XNOR Gate</div>
+		</div>
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+		<!-- XOR Gate Content -->
+		<div id="xor-gate" class="gate-content active">
+			<!-- XOR Sub-tabs -->
+			<div class="sub-tabs">
+				<div class="tab active" data-tab="xor-schematic">Schematic</div>
+				<div class="tab" data-tab="xor-parameters">Parameters</div>
+				<div class="tab" data-tab="xor-spice-code">SPICE Code</div>
+				<div class="tab" data-tab="xor-results">Results</div>
+			</div>
+
+			<!-- XOR Schematic -->
+			<div id="xor-schematic" class="tab-content active">
+				<h2>CMOS XOR Gate Schematic</h2>
+				<div class="schematic-container">
+					<div class="schematic-image">
+						<img id="xor-schematic-img" src="images/xor_schematic.png" alt="CMOS XOR Gate Schematic" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'300\' viewBox=\'0 0 400 300\'><rect width=\'100%\' height=\'100%\' fill=\'%23f2f2f2\'/><text x=\'50%\' y=\'50%\' font-family=\'Arial\' font-size=\'14\' fill=\'%23333\' text-anchor=\'middle\'>CMOS XOR/XNOR Gate Schematic Placeholder</text><text x=\'50%\' y=\'65%\' font-family=\'Arial\' font-size=\'12\' fill=\'%23666\' text-anchor=\'middle\'>Image not found. Please add xor_schematic.png and xnor_schematic.png to the images folder.</text></svg>'">
+					</div>
+					<div class="controls">
+						<h3>Circuit Description</h3>
+						<p>The CMOS XOR gate consists of:</p>
+						<ul>
+							<li>PMOS transistors in the pull-up network</li>
+							<li>NMOS transistors in the pull-down network</li>
+							<li>Two input nodes (A and B) connected to transistor gates</li>
+							<li>Output node (Y) connected to both networks</li>
+						</ul>
+						<p>Output is HIGH when inputs are different (A≠B)</p>
+						
+						<div class="interactive-hint">
+							<h4>Learning Objectives:</h4>
+							<ul>
+								<li>Understand the relationship between transistor sizes and switching characteristics</li>
+								<li>Learn how to optimize XOR/XNOR gate performance through parameter adjustment</li>
+								<li>Analyze the impact of supply voltage on circuit behavior</li>
+								<li>Learn SPICE syntax and circuit description through hands-on editing</li>
+								<li>Develop skills in writing and validating SPICE netlists</li>
+								<li>Understand common SPICE errors and how to fix them</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- XOR Parameters -->
+			<div id="xor-parameters" class="tab-content">
+				<h2>XOR Gate Parameters</h2>
+				<div class="parameter-controls">
+					<div class="control-group">
+						<label class="control-label" for="xor-vdd-slider">Supply Voltage (VDD)</label>
+						<input type="range" id="xor-vdd-slider" min="1" max="5" step="0.1" value="5" data-default="5" data-unit="V">
+						<div class="value-display">
+							<span>1V</span>
+							<span id="xor-vdd-slider-value">5V</span>
+							<span>5V</span>
+						</div>
+						<div class="parameter-hint" id="xor-vdd-hint">
+							<small>Hint: Higher VDD increases power consumption but improves noise margins</small>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="xor-pmos-width-slider">PMOS Width (W<sub>p</sub>)</label>
+						<input type="range" id="xor-pmos-width-slider" min="0.5" max="10" step="0.1" value="2.0" data-default="2.0" data-unit="μm">
+						<div class="value-display">
+							<span>0.5μm</span>
+							<span id="xor-pmos-width-slider-value">2.0μm</span>
+							<span>10.0μm</span>
+						</div>
+						<div class="parameter-hint" id="xor-pmos-hint">
+							<small>Hint: PMOS width affects rise time and high-to-low transition</small>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="xor-nmos-width-slider">NMOS Width (W<sub>n</sub>)</label>
+						<input type="range" id="xor-nmos-width-slider" min="0.5" max="10" step="0.1" value="1.0" data-default="1.0" data-unit="μm">
+						<div class="value-display">
+							<span>0.5μm</span>
+							<span id="xor-nmos-width-slider-value">1.0μm</span>
+							<span>10.0μm</span>
+						</div>
+						<div class="parameter-hint" id="xor-nmos-hint">
+							<small>Hint: NMOS width affects fall time and low-to-high transition</small>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="xor-mosfet-length-slider">MOSFET Length (L)</label>
+						<input type="range" id="xor-mosfet-length-slider" min="0.1" max="1.0" step="0.01" value="0.18" data-default="0.18" data-unit="μm">
+						<div class="value-display">
+							<span>0.1μm</span>
+							<span id="xor-mosfet-length-slider-value">0.18μm</span>
+							<span>1.0μm</span>
+						</div>
+						<div class="parameter-hint" id="xor-length-hint">
+							<small>Hint: Channel length affects current drive and switching speed</small>
+						</div>
+					</div>
+
+					<div class="btn-group">
+						<button id="xor-reset-params" class="btn">Reset Parameters</button>
+						<button id="xor-check-params" class="btn btn-secondary">Check Parameters</button>
+					</div>
+
+					<div class="parameter-feedback" id="xor-parameter-feedback">
+						<!-- Feedback messages will be inserted here -->
+					</div>
+				</div>
+
+				<div class="parameter-note">
+					<h3>Note on W/L Ratio</h3>
+					<p>The typical W<sub>p</sub>/W<sub>n</sub> ratio for a symmetrical CMOS XOR/XNOR gate is approximately 2:1 to compensate for the lower hole mobility in PMOS compared to electron mobility in NMOS.</p>
+				</div>
+			</div>
+
+			<!-- XOR SPICE Code -->
+			<div id="xor-spice-code" class="tab-content">
+				<h2>XOR Gate SPICE Netlist</h2>
+				<div class="spice-editor">
+					<p>This is the SPICE netlist for the CMOS XOR gate circuit with the current parameters:</p>
+					<pre class="spice-code" contenteditable="true" spellcheck="false">
+* CMOS XOR Gate SPICE Netlist
+
+* Power Supply
+VDD vdd 0 DC 5V
+
+* Input Voltage Sources (for DC sweep)
+VIN1 in1 0 DC 0V
+VIN2 in2 0 DC 0V
+
+* PMOS Transistors
+M1 out in1 vdd vdd PMOS W=2.0u L=0.18u
+M2 out in2 vdd vdd PMOS W=2.0u L=0.18u
+
+* NMOS Transistors
+M3 out in1 0 0 NMOS W=1.0u L=0.18u
+M4 out in2 0 0 NMOS W=1.0u L=0.18u
+
+* MOSFET Model Parameters
+.MODEL NMOS NMOS (LEVEL=3 TOX=3.5E-9 VTO=0.5 GAMMA=0.2 PHI=0.6)
+.MODEL PMOS PMOS (LEVEL=3 TOX=3.5E-9 VTO=-0.5 GAMMA=0.2 PHI=0.6)
+
+* Analysis Commands
+.DC VIN1 0 5 0.01
+.PRINT DC V(in1) V(in2) V(out)
+
+.END
+					</pre>
+					<div class="spice-controls">
+						<button id="xor-validate-spice" class="btn">Validate SPICE Code</button>
+						<button id="xor-restore-spice" class="btn btn-secondary">Restore Default</button>
+					</div>
+					<div class="spice-feedback">
+						<!-- SPICE validation feedback will be inserted here -->
+					</div>
+				</div>
+
+				<div class="btn-group">
+					<button id="xor-run-dc-sim" class="btn">Run DC Analysis</button>
+					<button id="xor-run-transient-sim" class="btn">Run Transient Analysis</button>
+				</div>
+			</div>
+
+			<!-- XOR Results -->
+			<div id="xor-results" class="tab-content">
+				<div class="results-tab-content">
+					<div class="result-section">
+						<h3>DC Analysis Results</h3>
+						<div id="xor-dc-results" class="plot-container"></div>
+					</div>
+					<div class="result-section">
+						<h3>Transient Analysis Results</h3>
+						<div id="xor-transient-results" class="plot-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- XNOR Gate Content -->
+		<div id="xnor-gate" class="gate-content">
+			<!-- XNOR Sub-tabs -->
+			<div class="sub-tabs">
+				<div class="tab active" data-tab="xnor-schematic">Schematic</div>
+				<div class="tab" data-tab="xnor-parameters">Parameters</div>
+				<div class="tab" data-tab="xnor-spice-code">SPICE Code</div>
+				<div class="tab" data-tab="xnor-results">Results</div>
+			</div>
+
+			<!-- XNOR Schematic -->
+			<div id="xnor-schematic" class="tab-content active">
+				<h2>CMOS XNOR Gate Schematic</h2>
+				<div class="schematic-container">
+					<div class="schematic-image">
+						<img id="xnor-schematic-img" src="images/xnor_schematic.png" alt="CMOS XNOR Gate Schematic" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'300\' viewBox=\'0 0 400 300\'><rect width=\'100%\' height=\'100%\' fill=\'%23f2f2f2\'/><text x=\'50%\' y=\'50%\' font-family=\'Arial\' font-size=\'14\' fill=\'%23333\' text-anchor=\'middle\'>CMOS XNOR Gate Schematic Placeholder</text><text x=\'50%\' y=\'65%\' font-family=\'Arial\' font-size=\'12\' fill=\'%23666\' text-anchor=\'middle\'>Image not found. Please add xnor_schematic.png to the images folder.</text></svg>'">
+					</div>
+					<div class="controls">
+						<h3>Circuit Description</h3>
+						<p>The CMOS XNOR gate consists of:</p>
+						<ul>
+							<li>PMOS transistors in the pull-up network</li>
+							<li>NMOS transistors in the pull-down network</li>
+							<li>Two input nodes (A and B) connected to transistor gates</li>
+							<li>Output node (Y) connected to both networks</li>
+						</ul>
+						<p>Output is HIGH when inputs are equal (A=B)</p>
+						
+						<div class="interactive-hint">
+							<h4>Learning Objectives:</h4>
+							<ul>
+								<li>Understand the relationship between transistor sizes and switching characteristics</li>
+								<li>Learn how to optimize XNOR gate performance through parameter adjustment</li>
+								<li>Analyze the impact of supply voltage on circuit behavior</li>
+								<li>Learn SPICE syntax and circuit description through hands-on editing</li>
+								<li>Develop skills in writing and validating SPICE netlists</li>
+								<li>Understand common SPICE errors and how to fix them</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- XNOR Parameters -->
+			<div id="xnor-parameters" class="tab-content">
+				<h2>XNOR Gate Parameters</h2>
+				<div class="parameter-controls">
+					<div class="control-group">
+						<label class="control-label" for="xnor-vdd-slider">Supply Voltage (VDD)</label>
+						<input type="range" id="xnor-vdd-slider" min="1" max="5" step="0.1" value="5" data-default="5" data-unit="V">
+						<div class="value-display">
+							<span>1V</span>
+							<span id="xnor-vdd-slider-value">5V</span>
+							<span>5V</span>
+						</div>
+						<div class="parameter-hint" id="xnor-vdd-hint">
+							<small>Hint: Higher VDD increases power consumption but improves noise margins</small>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="xnor-pmos-width-slider">PMOS Width (W<sub>p</sub>)</label>
+						<input type="range" id="xnor-pmos-width-slider" min="0.5" max="10" step="0.1" value="2.0" data-default="2.0" data-unit="μm">
+						<div class="value-display">
+							<span>0.5μm</span>
+							<span id="xnor-pmos-width-slider-value">2.0μm</span>
+							<span>10.0μm</span>
+						</div>
+						<div class="parameter-hint" id="xnor-pmos-hint">
+							<small>Hint: PMOS width affects rise time and high-to-low transition</small>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="xnor-nmos-width-slider">NMOS Width (W<sub>n</sub>)</label>
+						<input type="range" id="xnor-nmos-width-slider" min="0.5" max="10" step="0.1" value="1.0" data-default="1.0" data-unit="μm">
+						<div class="value-display">
+							<span>0.5μm</span>
+							<span id="xnor-nmos-width-slider-value">1.0μm</span>
+							<span>10.0μm</span>
+						</div>
+						<div class="parameter-hint" id="xnor-nmos-hint">
+							<small>Hint: NMOS width affects fall time and low-to-high transition</small>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="xnor-mosfet-length-slider">MOSFET Length (L)</label>
+						<input type="range" id="xnor-mosfet-length-slider" min="0.1" max="1.0" step="0.01" value="0.18" data-default="0.18" data-unit="μm">
+						<div class="value-display">
+							<span>0.1μm</span>
+							<span id="xnor-mosfet-length-slider-value">0.18μm</span>
+							<span>1.0μm</span>
+						</div>
+						<div class="parameter-hint" id="xnor-length-hint">
+							<small>Hint: Channel length affects current drive and switching speed</small>
+						</div>
+					</div>
+
+					<div class="btn-group">
+						<button id="xnor-reset-params" class="btn">Reset Parameters</button>
+						<button id="xnor-check-params" class="btn btn-secondary">Check Parameters</button>
+					</div>
+
+					<div class="parameter-feedback" id="xnor-parameter-feedback">
+						<!-- Feedback messages will be inserted here -->
+					</div>
+				</div>
+
+				<div class="parameter-note">
+					<h3>Note on W/L Ratio</h3>
+					<p>The typical W<sub>p</sub>/W<sub>n</sub> ratio for a symmetrical CMOS XNOR gate is approximately 2:1 to compensate for the lower hole mobility in PMOS compared to electron mobility in NMOS.</p>
+				</div>
+			</div>
+
+			<!-- XNOR SPICE Code -->
+			<div id="xnor-spice-code" class="tab-content">
+				<h2>XNOR Gate SPICE Netlist</h2>
+				<div class="spice-editor">
+					<p>This is the SPICE netlist for the CMOS XNOR gate circuit with the current parameters:</p>
+					<pre class="spice-code" contenteditable="true" spellcheck="false">
+* CMOS XNOR Gate SPICE Netlist
+
+* Power Supply
+VDD vdd 0 DC 5V
+
+* Input Voltage Sources (for DC sweep)
+VIN1 in1 0 DC 0V
+VIN2 in2 0 DC 0V
+
+* PMOS Transistors
+M1 n1 in1 vdd vdd PMOS W=2.0u L=0.18u
+M2 out in2 n1 vdd PMOS W=2.0u L=0.18u
+
+* NMOS Transistors
+M3 out in1 0 0 NMOS W=1.0u L=0.18u
+M4 out in2 0 0 NMOS W=1.0u L=0.18u
+
+* MOSFET Model Parameters
+.MODEL NMOS NMOS (LEVEL=3 TOX=3.5E-9 VTO=0.5 GAMMA=0.2 PHI=0.6)
+.MODEL PMOS PMOS (LEVEL=3 TOX=3.5E-9 VTO=-0.5 GAMMA=0.2 PHI=0.6)
+
+* Analysis Commands
+.DC VIN1 0 5 0.01
+.PRINT DC V(in1) V(in2) V(out)
+
+.END
+					</pre>
+					<div class="spice-controls">
+						<button id="xnor-validate-spice" class="btn">Validate SPICE Code</button>
+						<button id="xnor-restore-spice" class="btn btn-secondary">Restore Default</button>
+					</div>
+					<div class="spice-feedback">
+						<!-- SPICE validation feedback will be inserted here -->
+					</div>
+				</div>
+
+				<div class="btn-group">
+					<button id="xnor-run-dc-sim" class="btn">Run DC Analysis</button>
+					<button id="xnor-run-transient-sim" class="btn">Run Transient Analysis</button>
+				</div>
+			</div>
+
+			<!-- XNOR Results -->
+			<div id="xnor-results" class="tab-content">
+				<div class="results-tab-content">
+					<div class="result-section">
+						<h3>DC Analysis Results</h3>
+						<div id="xnor-dc-results" class="plot-container"></div>
+					</div>
+					<div class="result-section">
+						<h3>Transient Analysis Results</h3>
+						<div id="xnor-transient-results" class="plot-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./js/main.js"></script>
 </body>
 </html>
