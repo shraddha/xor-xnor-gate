@@ -2,38 +2,157 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "What is the logical function performed by a CMOS XNOR gate?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Outputs HIGH when inputs are different",
+        "b": "Outputs HIGH when inputs are same",
+        "c": "Outputs HIGH when all inputs are HIGH",
+        "d": "Outputs HIGH when any input is HIGH"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "This is the function of an XOR gate, not an XNOR gate.",
+        "b": "Correct! A CMOS XNOR gate outputs HIGH when its inputs are the same (both HIGH or both LOW).",
+        "c": "This is the function of an AND gate, not an XNOR gate.",
+        "d": "This is the function of an OR gate, not an XNOR gate."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Which transistors are used in a standard CMOS XNOR gate?",
+      "answers": {
+        "a": "Only NMOS transistors",
+        "b": "Only PMOS transistors",
+        "c": "Both NMOS and PMOS transistors",
+        "d": "BJT transistors"
+      },
+      "explanations": {
+        "a": "Using only NMOS would not create a proper CMOS XNOR gate.",
+        "b": "Using only PMOS would not create a proper CMOS XNOR gate.",
+        "c": "Correct! A CMOS XNOR gate uses both NMOS and PMOS transistors in a complementary arrangement.",
+        "d": "BJTs are not used in CMOS logic gates."
+      },
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "What happens when both inputs to a CMOS XNOR gate are HIGH (VDD)?",
+      "answers": {
+        "a": "Output is HIGH",
+        "b": "Output is LOW",
+        "c": "Output is undefined",
+        "d": "Output is high impedance"
+      },
+      "explanations": {
+        "a": "Correct! When both inputs are HIGH, the XNOR gate outputs HIGH because the inputs are the same.",
+        "b": "This would be incorrect for an XNOR gate with both inputs HIGH.",
+        "c": "In a properly designed CMOS XNOR gate, the output is always defined.",
+        "d": "High impedance state doesn't occur in normal operation of a CMOS XNOR gate."
       },
       "correctAnswer": "a",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "What is the relationship between XOR and XNOR gates?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "They are completely different gates",
+        "b": "XNOR is the complement of XOR",
+        "c": "XOR is the complement of XNOR",
+        "d": "They are the same gate with different names"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "XOR and XNOR gates are related, not completely different.",
+        "b": "Correct! XNOR is the complement of XOR - when XOR outputs HIGH, XNOR outputs LOW and vice versa.",
+        "c": "This is the reverse of the correct relationship.",
+        "d": "They are different gates with complementary functions."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "In a SPICE netlist for a CMOS XNOR gate, what does the parameter 'L' represent for a MOSFET?",
+      "answers": {
+        "a": "Load capacitance",
+        "b": "Length of the transistor channel",
+        "c": "Logic level",
+        "d": "Latch-up condition"
+      },
+      "explanations": {
+        "a": "Load capacitance is not represented by 'L' in SPICE.",
+        "b": "Correct! L represents the length of the transistor channel, which affects the current drive capability and switching speed.",
+        "c": "Logic level is not a parameter used in SPICE MOSFET models.",
+        "d": "Latch-up condition is not represented by 'L' in SPICE."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the main challenge in designing CMOS XOR and XNOR gates?",
+      "answers": {
+        "a": "Power consumption only",
+        "b": "Transistor count only",
+        "c": "Layout complexity only",
+        "d": "All of the above"
+      },
+      "explanations": {
+        "a": "Power consumption is just one of several challenges.",
+        "b": "Transistor count is just one of several challenges.",
+        "c": "Layout complexity is just one of several challenges.",
+        "d": "Correct! Designing CMOS XOR and XNOR gates presents challenges in terms of power consumption, transistor count, and layout complexity due to their more complex structure compared to basic gates."
+      },
+      "correctAnswer": "d",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which SPICE command is used to perform a transient analysis for XOR/XNOR gates?",
+      "answers": {
+        "a": ".DC",
+        "b": ".AC",
+        "c": ".TRAN",
+        "d": ".OP"
+      },
+      "explanations": {
+        "a": "The .DC command is used for DC sweep analysis, not transient analysis.",
+        "b": "The .AC command is used for AC sweep analysis, not transient analysis.",
+        "c": "Correct! The .TRAN command is used to perform a transient analysis in SPICE.",
+        "d": "The .OP command is used for operating point analysis, not transient analysis."
       },
       "correctAnswer": "c",
-      "difficulty": "beginner"
+      "difficulty": "advanced"
+    },
+    {
+      "question": "To measure the voltage transfer characteristic (VTC) of a CMOS XOR gate, which type of SPICE analysis would you use?",
+      "answers": {
+        "a": "DC analysis",
+        "b": "AC analysis",
+        "c": "Transient analysis",
+        "d": "Noise analysis"
+      },
+      "explanations": {
+        "a": "Correct! DC analysis is used to measure the voltage transfer characteristic (VTC) of digital gates.",
+        "b": "AC analysis is used for frequency response, not for VTC measurements.",
+        "c": "Transient analysis is used for timing measurements, not for VTC.",
+        "d": "Noise analysis is used for analyzing noise characteristics, not for VTC."
+      },
+      "correctAnswer": "a",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "What is the primary factor that determines the fall time of a CMOS XOR gate output?",
+      "answers": {
+        "a": "PMOS transistor width",
+        "b": "NMOS transistor width",
+        "c": "Input signal frequency",
+        "d": "Load capacitance"
+      },
+      "explanations": {
+        "a": "PMOS width affects rise time, not fall time.",
+        "b": "Correct! The NMOS transistor width primarily determines the fall time as it controls how quickly the output can be pulled down to ground.",
+        "c": "Input frequency affects switching rate but not the fall time of individual transitions.",
+        "d": "While load capacitance affects both rise and fall times, the NMOS width is the primary factor for fall time."
+      },
+      "correctAnswer": "b",
+      "difficulty": "advanced"
     }
   ]
 }

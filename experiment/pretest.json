@@ -2,38 +2,157 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "What is the logical function performed by a CMOS XOR gate?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Outputs HIGH when inputs are different",
+        "b": "Outputs HIGH when inputs are same",
+        "c": "Outputs HIGH when all inputs are HIGH",
+        "d": "Outputs HIGH when any input is HIGH"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Correct! A CMOS XOR gate outputs HIGH when its inputs are different (one HIGH, one LOW).",
+        "b": "This is the function of an XNOR gate, not an XOR gate.",
+        "c": "This is the function of an AND gate, not an XOR gate.",
+        "d": "This is the function of an OR gate, not an XOR gate."
       },
       "correctAnswer": "a",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "Which transistors are used in a standard CMOS XOR gate?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Only NMOS transistors",
+        "b": "Only PMOS transistors",
+        "c": "Both NMOS and PMOS transistors",
+        "d": "BJT transistors"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Using only NMOS would not create a proper CMOS XOR gate.",
+        "b": "Using only PMOS would not create a proper CMOS XOR gate.",
+        "c": "Correct! A CMOS XOR gate uses both NMOS and PMOS transistors in a complementary arrangement.",
+        "d": "BJTs are not used in CMOS logic gates."
       },
       "correctAnswer": "c",
       "difficulty": "beginner"
+    },
+    {
+      "question": "What happens when both inputs to a CMOS XOR gate are LOW (0V)?",
+      "answers": {
+        "a": "Output is HIGH",
+        "b": "Output is LOW",
+        "c": "Output is undefined",
+        "d": "Output is high impedance"
+      },
+      "explanations": {
+        "a": "Correct! When both inputs are LOW, the XOR gate outputs LOW because the inputs are the same.",
+        "b": "This would be incorrect for an XOR gate with both inputs LOW.",
+        "c": "In a properly designed CMOS XOR gate, the output is always defined.",
+        "d": "High impedance state doesn't occur in normal operation of a CMOS XOR gate."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "What is the relationship between XOR and XNOR gates?",
+      "answers": {
+        "a": "They are completely different gates",
+        "b": "XNOR is the complement of XOR",
+        "c": "XOR is the complement of XNOR",
+        "d": "They are the same gate with different names"
+      },
+      "explanations": {
+        "a": "XOR and XNOR gates are related, not completely different.",
+        "b": "Correct! XNOR is the complement of XOR - when XOR outputs HIGH, XNOR outputs LOW and vice versa.",
+        "c": "This is the reverse of the correct relationship.",
+        "d": "They are different gates with complementary functions."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "In a SPICE netlist for a CMOS XOR gate, what does the parameter 'W' represent for a MOSFET?",
+      "answers": {
+        "a": "Weight of the transistor",
+        "b": "Work function of the gate material",
+        "c": "Width of the transistor channel",
+        "d": "Wafer number of the chip"
+      },
+      "explanations": {
+        "a": "Weight is not a parameter used in SPICE MOSFET models.",
+        "b": "Work function is a material property, not represented by 'W' in SPICE.",
+        "c": "Correct! W represents the width of the transistor channel, which affects the current drive capability of the transistor.",
+        "d": "Wafer number is not a parameter used in SPICE MOSFET models."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the main challenge in designing CMOS XOR and XNOR gates?",
+      "answers": {
+        "a": "Power consumption only",
+        "b": "Transistor count only",
+        "c": "Layout complexity only",
+        "d": "All of the above"
+      },
+      "explanations": {
+        "a": "Power consumption is just one of several challenges.",
+        "b": "Transistor count is just one of several challenges.",
+        "c": "Layout complexity is just one of several challenges.",
+        "d": "Correct! Designing CMOS XOR and XNOR gates presents challenges in terms of power consumption, transistor count, and layout complexity due to their more complex structure compared to basic gates."
+      },
+      "correctAnswer": "d",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which SPICE command is used to perform a DC sweep analysis for XOR/XNOR gates?",
+      "answers": {
+        "a": ".DC",
+        "b": ".AC",
+        "c": ".TRAN",
+        "d": ".OP"
+      },
+      "explanations": {
+        "a": "Correct! The .DC command is used to perform a DC sweep analysis in SPICE.",
+        "b": "The .AC command is used for AC sweep analysis, not DC.",
+        "c": "The .TRAN command is used for transient analysis, not DC sweep.",
+        "d": "The .OP command is used for operating point analysis, not DC sweep."
+      },
+      "correctAnswer": "a",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "To measure the propagation delay of a CMOS XOR gate, which type of SPICE analysis would you use?",
+      "answers": {
+        "a": "DC analysis",
+        "b": "AC analysis",
+        "c": "Transient analysis",
+        "d": "Noise analysis"
+      },
+      "explanations": {
+        "a": "DC analysis is used for static characteristics like VTC, not for timing measurements.",
+        "b": "AC analysis is used for frequency response, not for timing measurements in digital circuits.",
+        "c": "Correct! Transient analysis (.TRAN) is used to measure time-dependent behavior like propagation delay.",
+        "d": "Noise analysis is used for analyzing noise characteristics, not for timing measurements."
+      },
+      "correctAnswer": "c",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "What is the primary factor that determines the rise time of a CMOS XOR gate output?",
+      "answers": {
+        "a": "PMOS transistor width",
+        "b": "NMOS transistor width",
+        "c": "Input signal frequency",
+        "d": "Load capacitance"
+      },
+      "explanations": {
+        "a": "Correct! The PMOS transistor width primarily determines the rise time as it controls how quickly the output can be pulled up to VDD.",
+        "b": "NMOS width affects fall time, not rise time.",
+        "c": "Input frequency affects switching rate but not the rise time of individual transitions.",
+        "d": "While load capacitance affects both rise and fall times, the PMOS width is the primary factor for rise time."
+      },
+      "correctAnswer": "a",
+      "difficulty": "advanced"
     }
   ]
 }
